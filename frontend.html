@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> - Smart Farming Advisor (clone)</title>
+  <style>
+    :root{--accent:#2b9f60;--muted:#666}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#f7faf7;color:#111}
+    header{background:linear-gradient(90deg,#ffffffcc, #f0fff0);padding:18px 24px;border-bottom:1px solid #e6efe6;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    nav a{margin-left:12px;color:var(--muted);text-decoration:none}
+    main{max-width:1000px;margin:28px auto;padding:0 18px}
+    h1,h2,h3{margin:6px 0}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{background:#fff;padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(30,90,60,0.04);border:1px solid #e8f4ea}
+    label{display:block;margin:8px 0 6px;font-size:14px;color:var(--muted)}
+    select,input[type=number],input[type=text]{width:100%;padding:8px;border-radius:6px;border:1px solid #dfeee0}
+    .btn{background:var(--accent);color:#fff;padding:10px 14px;border:none;border-radius:8px;cursor:pointer}
+    .results{margin-top:12px;color:#2b6b3a}
+    footer{padding:24px;text-align:center;color:var(--muted);font-size:14px}
+    @media (max-width:800px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:700">FARM-BOTICS</div>
+        <div style="font-size:13px;color:var(--muted)">A Smart Farming Advisor</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#crop">Crop Recommendation</a>
+      <a href="#yield">Yield Prediction</a>
+      <a href="#fert">Fertilizer</a>
+      <a href="#price">Price</a>
+      <a href="#disease">Disease</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="card" style="margin-bottom:18px">
+      <h1>AGRI-BOT</h1>
+      <p>Empowering farmers with AI-driven insights for better crop management and higher yields.</p>
+    </section>
+
+    <section id="features" class="grid" style="margin-bottom:18px">
+      <div class="card">
+        <h2>Crop Recommendation</h2>
+        <p>Get personalized crop suggestions based on your soil, climate and farm size.</p>
+      </div>
+      <div class="card">
+        <h2>Yield Prediction</h2>
+        <p>Estimate crop yield using environmental factors and simple rules.</p>
+      </div>
+    </section>
+
+    <section id="crop" class="card">
+      <h2>Crop Recommendation</h2>
+      <form id="cropForm">
+        <label>Soil Type</label>
+        <select name="soil">
+          <option>Clay</option>
+          <option>Sandy</option>
+          <option>Loamy</option>
+          <option>Silty</option>
+          <option>Peaty</option>
+        </select>
+
+        <label>Climate Zone</label>
+        <select name="climate">
+          <option>Tropical</option>
+          <option>Subtropical</option>
+          <option>Temperate</option>
+          <option>Arid</option>
+          <option>Semi-arid</option>
+        </select>
+
+        <label>Season</label>
+        <select name="season">
+          <option>Spring</option>
+          <option>Summer</option>
+          <option>Monsoon</option>
+          <option>Winter</option>
+        </select>
+
+        <label>Farm Size (acres)</label>
+        <input type="number" name="area" min="0" step="0.1" placeholder="e.g. 2.5" />
+
+        <div style="margin-top:12px"><button class="btn" type="submit">Get Recommendations</button></div>
+      </form>
+
+      <div id="cropResults" class="results" aria-live="polite"></div>
+    </section>
+
+    <section id="yield" class="card" style="margin-top:18px">
+      <h2>Yield Prediction</h2>
+      <form id="yieldForm">
+        <label>Crop Type</label>
+        <select name="crop">
+          <option>Rice</option>
+          <option>Wheat</option>
+          <option>Maize</option>
+          <option>Cotton</option>
+          <option>Sugarcane</option>
+        </select>
+        <label>Area (hectares)</label>
+        <input type="number" name="area" min="0" step="0.1" />
+        <label>Rainfall (mm)</label>
+        <input type="number" name="rainfall" min="0" />
+        <label>Temperature (°C)</label>
+        <input type="number" name="temp" step="0.1" />
+        <div style="margin-top:12px"><button class="btn" type="submit">Predict Yield</button></div>
+      </form>
+      <div id="yieldResults" class="results"></div>
+    </section>
+
+    <section id="fert" class="card" style="margin-top:18px">
+      <h2>Fertilizer Suggestion</h2>
+      <form id="fertForm">
+        <label>Crop Type</label>
+        <select name="crop">
+          <option>Rice</option>
+          <option>Wheat</option>
+          <option>Maize</option>
+          <option>Cotton</option>
+          <option>Vegetables</option>
+        </select>
+        <label>Soil pH</label>
+        <input type="number" name="ph" step="0.1" />
+        <div style="margin-top:12px"><button class="btn" type="submit">Get Suggestions</button></div>
+      </form>
+      <div id="fertResults" class="results"></div>
+    </section>
+
+    <section id="price" class="card" style="margin-top:18px">
+      <h2>Price Estimation</h2>
+      <form id="priceForm">
+        <label>Crop Type</label>
+        <select name="crop">
+          <option>Rice</option>
+          <option>Wheat</option>
+          <option>Maize</option>
+          <option>Cotton</option>
+          <option>Sugarcane</option>
+          <option>Onion</option>
+          <option>Potato</option>
+        </select>
+        <label>Market / Location</label>
+        <input type="text" name="market" />
+        <label>Quantity (tonnes)</label>
+        <input type="number" name="qty" step="0.01" />
+        <label>Quality Grade</label>
+        <select name="grade">
+          <option>Grade A (Premium)</option>
+          <option>Grade B (Standard)</option>
+          <option>Grade C (Basic)</option>
+        </select>
+        <div style="margin-top:12px"><button class="btn" type="submit">Get Price Estimate</button></div>
+      </form>
+      <div id="priceResults" class="results"></div>
+    </section>
+
+    <section id="disease" class="card" style="margin-top:18px">
+      <h2>Plant Disease Detection</h2>
+      <form id="diseaseForm">
+        <label>Plant Type</label>
+        <select name="plant">
+          <option>Rice</option>
+          <option>Wheat</option>
+          <option>Maize</option>
+          <option>Cotton</option>
+          <option>Tomato</option>
+          <option>Potato</option>
+          <option>Other</option>
+        </select>
+        <label>Upload Plant Image</label>
+        <input type="file" name="image" accept="image/*" />
+        <label>Additional Symptoms (optional)</label>
+        <input type="text" name="symptoms" />
+        <div style="margin-top:12px"><button class="btn" type="submit">Analyze Plant</button></div>
+      </form>
+      <div id="diseaseResults" class="results"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    © Khet AI - Demo clone. This is a reconstructed front-end for learning purposes.
+  </footer>
+
+  <script>
+    // Simple client-side logic to mimic behaviour from the original site
+    function pickCrops({soil, climate, season}){
+      // naive rule-based sample recommendations
+      const map = {
+        'Clay':'Sugarcane',
+        'Sandy':'Maize',
+        'Loamy':'Wheat',
+        'Silty':'Rice',
+        'Peaty':'Vegetables'
+      };
+      const base = map[soil] || 'Maize';
+      return [base, 'Mustard', 'Green Gram'];
+    }
+
+    document.getElementById('cropForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      const rec = pickCrops(data);
+      document.getElementById('cropResults').textContent = 'Recommended crops: ' + rec.join(', ');
+    });
+
+    document.getElementById('yieldForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const d = Object.fromEntries(new FormData(e.target).entries());
+      // very simple heuristic: yield = area * base per hectare depending on crop
+      const baseY = {Rice:5, Wheat:3, Maize:6, Cotton:2.5, Sugarcane:80};
+      const yieldPerHa = baseY[d.crop] || 3;
+      const est = (parseFloat(d.area||0) * yieldPerHa).toFixed(2);
+      document.getElementById('yieldResults').textContent = `Estimated yield: ${est} tonnes`;
+    });
+
+    document.getElementById('fertForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const d = Object.fromEntries(new FormData(e.target).entries());
+      const ph = parseFloat(d.ph||7);
+      let advice = [];
+      if(ph < 6.5) advice.push('Apply lime to raise pH');
+      if(parseFloat(d.n) < 50) advice.push('Add Nitrogen-rich fertilizer');
+      if(parseFloat(d.p) < 20) advice.push('Add Phosphorus');
+      if(parseFloat(d.k) < 20) advice.push('Add Potassium');
+      document.getElementById('fertResults').textContent = advice.length? advice.join('; '): 'Soil nutrients look adequate.';
+    });
+
+    document.getElementById('priceForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const d = Object.fromEntries(new FormData(e.target).entries());
+      // demo estimate based on crop (static sample prices)
+      const priceMap = {Rice:25000, Wheat:20000, Maize:15000, Cotton:70000, Sugarcane:3000, Onion:25000, Potato:12000};
+      const ppk = priceMap[d.crop] || 10000; // price per tonne in local currency unit
+      const qty = parseFloat(d.qty||1);
+      const est = (ppk * qty).toFixed(2);
+      document.getElementById('priceResults').textContent = `Estimated market value: ₹ ${est}`;
+    });
+
+    document.getElementById('diseaseForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      // this is a placeholder: real app would send image to a model
+      document.getElementById('diseaseResults').textContent = 'Analysis submitted. (Demo) Common issues: fungal spots, nutrient deficiency.';
+    });
+
+  </script>
+</body>
+</html>
